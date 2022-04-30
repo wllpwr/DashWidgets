@@ -1,0 +1,55 @@
+<body>
+    <div style="display: flex; justify-content: left">
+        <div>
+            <div id="quote">"Loading."</div>
+            <div id="author">-Unknown</div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function fetchQuote() {
+        fetch("https://type.fit/api/quotes")
+            .then(response => response.json())
+            .then(data => {
+                var author = document.getElementById("author");
+                var randomNum = Math.round(Math.random() * (data.length - 1) + 1);
+                if (data[randomNum].author == null) {
+                    author.textContent = "-Unknown";
+                } else {
+                    author.textContent = "-" + data[randomNum].author;
+                }
+
+                document.getElementById("quote").textContent = "\"" + data[randomNum].text + "\"";
+
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+    fetchQuote();
+</script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
+    body {
+        background-color: black;
+        color: white;
+        font-family: 'Cabin', sans-serif;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        overflow-y: hidden;
+        text-align: center;
+        font-size-adjust: 2;
+    }
+    
+    #quote {
+        font-size: calc(10vw);
+        padding: 10pt;
+    }
+    
+    #author {
+        font-size: calc(5vw);
+    }
+</style>
